@@ -36,11 +36,11 @@
     </Reference>
     <Reference Include="Kopernicus.Parser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Kerbal Space Program\GameData\Kopernicus\Plugins\Kopernicus.Parser.dll</HintPath>
+      <HintPath>C:\KSP191\GameData\Kopernicus\Plugins\Kopernicus.Parser.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ModularFlightIntegrator">
-      <HintPath>C:\Program Files\Kerbal Space Program\GameData\ModularFlightIntegrator\ModularFlightIntegrator.dll</HintPath>
+      <HintPath>C:\KSP191\GameData\ModularFlightIntegrator\ModularFlightIntegrator.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -56,6 +56,9 @@
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>C:\KSP191\KSP_x64_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>..\..\..\..\..\..\..\KSP191\KSP_x64_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>C:\KSP191\KSP_x64_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
@@ -122,6 +125,7 @@
     <Compile Include="Components\NameChanger.cs" />
     <Compile Include="Components\NativeByteArray.cs" />
     <Compile Include="Components\OrbitRendererUpdater.cs" />
+    <Compile Include="Components\PlanetaryParticle.cs" />
     <Compile Include="Components\PQSLandControlFixer.cs" />
     <Compile Include="Components\PQSMod_TextureAtlasFixer.cs" />
     <Compile Include="Components\Ring.cs" />
@@ -244,6 +248,7 @@
     <Compile Include="Configuration\Parsing\BaseLoader.cs" />
     <Compile Include="Configuration\Parsing\ObjImporter.cs" />
     <Compile Include="Configuration\FogLoader.cs" />
+    <Compile Include="Configuration\ParticleLoader.cs" />
     <Compile Include="Configuration\RingLoader.cs" />
     <Compile Include="Configuration\SpaceCenterLoader.cs" />
     <Compile Include="Configuration\LightShifterLoader.cs" />
@@ -325,9 +330,6 @@
     <Compile Include="UI\PlanetTextureExporter.cs" />
     <Compile Include="UI\Tools.cs" />
     <Compile Include="Utility.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
