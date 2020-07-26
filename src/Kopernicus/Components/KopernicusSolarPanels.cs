@@ -105,11 +105,15 @@ namespace Kopernicus.Components
                 {
                     ModuleDeployableSolarPanel SP = SPs[n];
 
+                    Logger.Active.Log("Running FixedUpdate for solar panel:" + SP.name);
+
                     if (SP.deployState == ModuleDeployablePart.DeployState.EXTENDED)
                     {
                         KopernicusStar trackingStar = KopernicusStar.CelestialBodies[SP.trackingBody];
+                        Logger.Active.Log("Currently Tracking:" + trackingStar.name);
 
                         Double bestFlux = vessel.solarFlux * 1360 / PhysicsGlobals.SolarLuminosityAtHome;
+                        Logger.Active.Log("Starting bestFlux:" + bestFlux);
                         KopernicusStar bestStar = trackingStar;
                         Double totalFlux = 0;
                         Single totalAoA = SP.sunAOA;
@@ -120,12 +124,18 @@ namespace Kopernicus.Components
                         {
                             KopernicusStar star = KopernicusStar.Stars[s];
 
+                            Logger.Active.Log("Considering star:" + star.name);
+
                             if (star != trackingStar)
                             {
+                                Logger.Active.Log("  star is not trackingStar... (" + star + " vs " + trackingStar + ")");
                                 // Use this star
                                 star.shifter.ApplyPhysics();
                                 double flux = star.CalculateFluxAt(vessel);
+                                Logger.Active.Log("  flux:" + flux);
                                 vessel.solarFlux += flux * PhysicsGlobals.SolarLuminosityAtHome / 1360;
+
+                                Logger.Active.Log("  vessel.solarFlux now:" + vessel.solarFlux);
 
                                 // Change the tracking body
                                 SP.trackingBody = star.sun;
@@ -140,12 +150,16 @@ namespace Kopernicus.Components
 
                                 // Add to TotalFlux and TotalAoA
                                 totalFlux += vessel.solarFlux;
+                                Logger.Active.Log("  totalFlux now:" + totalFlux);
                                 totalAoA += SP.sunAOA;
+                                Logger.Active.Log("  totalAoA now:" + totalAoA);
                                 _totalFlow += SP._flowRate;
                                 totalFlow += SP.flowRate;
+                                Logger.Active.Log("  totalFlow now:" + totalFlow);
 
                                 if (bestFlux < flux)
                                 {
+                                    Logger.Active.Log("  Best Flux found: " + flux + " at star: " + star.name + " " + star);
                                     bestFlux = flux;
                                     bestStar = star;
                                 }
@@ -164,11 +178,21 @@ namespace Kopernicus.Components
 
                         totalFlux += trackingStar.CalculateFluxAt(vessel) * PhysicsGlobals.SolarLuminosityAtHome / 1360;
 
+                        Logger.Active.Log("Finalizing Panel and Vessel stats");
+
                         vessel.solarFlux = totalFlux;
+                        Logger.Active.Log("  Total Flux:" + totalFlux);
                         SP.sunAOA = totalAoA;
+                        Logger.Active.Log("  Panel sunAOA:" + totalAoA);
+
                         SP.sunAOA /= _relativeSunAoa ? KopernicusStar.Stars.Count : 1;
+                        Logger.Active.Log("  But scaling panel sunAOA to: " + SP.sunAOA);
                         SP._flowRate = _totalFlow;
+                        Logger.Active.Log("  Panel _flowRate:" + _totalFlow);
                         SP.flowRate = totalFlow;
+                        Logger.Active.Log("  Panel flowRate:" + totalFlow);
+
+
 
                         // We got the best star to use
                         if (bestStar != null && bestStar.sun != SP.trackingBody)
